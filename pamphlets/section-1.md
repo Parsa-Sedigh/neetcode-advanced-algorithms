@@ -31,12 +31,30 @@ With this approach, we won't be worry about small size windows as well, it's han
 
 The L and R pointers in this **can** be at the same position because it's a valid window.
 
-This problem is actually simple enough that we don't need the sliding window(at least we don't explicitly need a left and a right pointer).
-We're just using L and R in 2-1-3 to see the main idea of sliding window.
+This problem(`2-1-3`) is actually simple enough that we don't need the sliding window(at least we don't explicitly need a left and a right pointer).
+We're just using L and R in `2-1-3` to see the main idea of sliding window.
 
 More complicated sliding window:
 
-**Q:(2-1-4)** Find the minimum length subarray, where the sum is greater than or equal to the target. Assume all values are positive.
+**Q:(2-1-4)** Find the minimum length subarray, where the sum is greater than or equal to the target. **Assume all values are positive.**
+
+Brute force way is to find all the possible sub arrays.
+
+Since all the elements are positive, when we have a window that has total sum of equal or greater than the target, by growing the window again, it's not
+gonna ever get smaller to reach that target again. So when we reach that target, we need to shrink our window so that we can again have a valid
+window(can have a total sum equal or larger than the target), so we will increment the `L` pointer, but this incrementing won't necessarily be done
+only once, because if we just increment it by 1, we couldn't see all the possible minimum lengths. So the L pointer could be incremented multiple times while
+the R pointer is pointing to the same index. **But the time complexity would still be O(n) !**
+
+Why? 
+
+Normally when we have two nested for loops, we think that is always O(n^2), but in this case it's not! Because that inner loop is not always going to
+execute. The inner loop runs a **total of n times and not n times for each iteration of the outer loop** , but n times total. So even though we have
+two nested loops, the time complexity is still O(n). 
+
+Note: When we shrink the window by incrementing the `L` pointer, the total sum would become smaller OFC.
+
+So when we have a variable-length window, we usually have an inner while loop but that doesn't mean the time complexity is O(n^2) .
 
 ## 4-3. Two Pointers
 ## 5-4. Prefix Sums
