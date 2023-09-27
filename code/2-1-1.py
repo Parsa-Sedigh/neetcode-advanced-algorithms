@@ -1,5 +1,5 @@
 """
-Check if array contains a pair of duplicate values, where the two duplicates are no further than k positions from eaach other(i.e.
+Check if array contains a pair of duplicate values, where the two duplicates are no further than k positions from each other(i.e.
 arr[i] == arr[j] and abs(i - j) <= k).
 O(n * k)
 """
