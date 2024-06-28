@@ -1,6 +1,25 @@
 # Section 1. Arrays
 
 ## 1-0. Kadanes Algo
+This algo has overlap with a lot of algos like two-pointers and sliding window(they're kinda techniques), DP and greedy.
+
+This algo is technically a DP and greedy algo.
+
+1-0-1.py: Brute force way is to find all the sub-arrays. To get every sub-array starting at the first position and going forward,
+it's gonna be O(n) where n is the size of the arr. And to do the same exact thing starting from the second position
+and going forward, it would also be O(n). So T: O(n^2) .
+
+### Kadanes algo
+![](../img/1-arrays/1-0-1.png)
+
+We can call the subarr, a window.
+
+### Sliding window variation of Kadanes algo
+At some point, our window slides to begin in the position where 3 lives. And then it grew to include 3 and 4.
+![](../img/1-arrays/1-0-2.png)
+
+Note: All the values in the window, represent `curSum`.
+
 ## 2-1. Sliding Window Fixed
 **Q:** Given an array, return true if there are two elements within a window of size k that are equal.
 
@@ -57,4 +76,5 @@ Note: When we shrink the window by incrementing the `L` pointer, the total sum w
 So when we have a variable-length window, we usually have an inner while loop but that doesn't mean the time complexity is O(n^2) .
 
 ## 4-3. Two Pointers
+
 ## 5-4. Prefix Sums
