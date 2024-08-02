@@ -9,7 +9,11 @@ This algo is technically a DP and greedy algo.
 it's gonna be O(n) where n is the size of the arr. And to do the same exact thing starting from the second position
 and going forward, it would also be O(n). So T: O(n^2) .
 
+Note: Always `check if the prev curr is less than 0 and set it to 0` before doing anything else.
+
 ### Kadanes algo
+**Is used to find the maximum sum subarray from a given array.**
+
 ![](../img/1-arrays/1-0-1.png)
 
 We can call the subarr, a window.
@@ -64,7 +68,6 @@ gonna ever get smaller to reach that target again. So when we reach that target,
 window(can have a total sum equal or larger than the target), so we will increment the `L` pointer, but this incrementing won't necessarily be done
 only once, because if we just increment it by 1, we couldn't see all the possible minimum lengths. So the L pointer could be incremented multiple times while
 the R pointer is pointing to the same index. **But the time complexity would still be O(n) !**
-
 Why? 
 
 Normally when we have two nested for loops, we think that is always O(n^2), but in this case it's not! Because that inner loop is not always going to
@@ -76,5 +79,17 @@ Note: When we shrink the window by incrementing the `L` pointer, the total sum w
 So when we have a variable-length window, we usually have an inner while loop but that doesn't mean the time complexity is O(n^2) .
 
 ## 4-3. Two Pointers
+Sliding window is pretty much a subset of two-pointers.
+
+Q: What is the difference of two-pointers and sliding window problems?
+
+A: With two pointer algos, we care mostly about the two individual els that the pointers are pointing at.
+But in sliding window, we care about the entire window.
+
+In 4-3-1.py, one solution is build another arr by iterating the original arr in reverse order.
+But another way that doesn't have extra memory is with two pointers.
+
+So in this technique, we usually initialize two pointers at the end of the arr and then we start moving them towards each other
+based on some condition until they meet or cross each other.
 
 ## 5-4. Prefix Sums

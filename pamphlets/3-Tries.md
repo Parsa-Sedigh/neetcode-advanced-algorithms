@@ -95,7 +95,7 @@ we don't wanna say that "ap" is a word(in the case we inserted the word "apple")
 
 So every prefix is not necessarily a word.
 
-Now let's say we wanna insert the word "ape". curr is set to root, we're gonna go character by character in the word "ape", now is "a" a child of
+Now let's say we wanna insert the word "ape". `curr` is set to root, we're gonna go character by character in the word "ape", now is "a" a child of
 the root, it is, so we don't have to insert a new "a" as the child of root. We don't want redundant nodes, we don't need two "a"s that are
 both children of the root. Because we want all words that start with "a", to go down the branch of "a"(child of root). We don't want to have to
 search two branches or multiple branches for the current character, we just want a single branch to be able to search for.
@@ -117,6 +117,8 @@ A trie can be helpful for searching for prefixes. It's also efficient for insert
 
 ![](../img/3-Tries/%3F%3F-1-2.png)
 
-## ??-2. Union Find
+## ??-2. Union Find data structure(Disjoint sets)
+It's technically a tree DS, but it's mostly applied to generic graphs. So it can get complicated but the implementation is easy.
+
 ## ??-3. Segment Tree
 ## ??-4. Iterative DFS

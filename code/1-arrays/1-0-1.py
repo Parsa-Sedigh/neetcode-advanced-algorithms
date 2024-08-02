@@ -25,6 +25,7 @@ def bruteForce(nums):
 
 # kadanes algo:
 # T: O(n)
+# M: O(1)
 def kadanes(nums):
     maxSum = nums[0]
     curSum = 0
@@ -62,6 +63,9 @@ def slidingWindow(nums):
             curSum = 0
             L = R
 
+        # This line should be after the prev if block, otherwise, we will get wrong result. For example, when we have [-1],
+        # the max_sum is -1 not 0(because according to the description, we should include at least one el of the input).
+        # But if we change the order of prev if block with this line, we would get 0 as result.
         curSum += nums[R]
 
         if curSum > maxSum:

@@ -1,5 +1,6 @@
 # Same problem using sliding window technique.
-# O(n)
+# T: O(n)
+# M: O()
 def closeDuplicates(nums, k):
     window = set()  # cur window of size <= k
     L = 0
