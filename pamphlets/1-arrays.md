@@ -42,7 +42,7 @@ Time: O(n * k) which for large windows is not good.
 A common technique with sliding window problems: `min(len(nums), L + k)` when looping. It's because when we don't have enough elements to
 have our window. So we would consider the end of the array as last element. So we won't go out of bounds of array.
 
-Better way: Detecting duplicates is sth that can be improved with hash tables. Look at `2-1-2.py`.
+Better way: **Detecting duplicates is sth that can be improved with hash tables.** Look at `2-1-2.py`.
 
 Now, instead of comparing the current value to all of the window which before was of O(n) , we use a hash table and say: `if nums[R] in window`
 which is a constant time operation(O(1)).
@@ -93,3 +93,45 @@ So in this technique, we usually initialize two pointers at the end of the arr a
 based on some condition until they meet or cross each other.
 
 ## 5-4. Prefix Sums
+Prefix means that we're starting at the beginning.
+
+So the prefix of this arr: [2, -1, 3, -3, 4] is any subarr(typically any **contiguous** sub arr) that **starts at the beginning of the arr**.
+Some examples are: [2], [2, -1], [2, -1, 3] and ... . Note: The entire arr itself is a prefix.
+
+But [-1, 3] is not a prefix because it doesn't start at the beginning. Also [2, 3] is not a prefix typically because it typically
+it should be contiguous.
+
+We don't have to get the res of previous prefix sums. It's repeated work. At each step, we know the prev prefix sums, so we don't have
+to recompute them again.
+
+We can also have prefix products and ... .
+
+**Note: Given an arr of n els, we can have n^2 sub-arrs.**
+
+Postfix: Every subarr starting at the end.
+
+We use prefix and postfix to eliminate repeated work.
+
+`5-4-1.py`: 
+
+A naive way to solve it, is not worrying about prefixes, just go through L to R and calc sum. In worst case: T: O(n) .
+
+But this can be done more efficiently. Let's say we have: rangeSum(1, 3). None of the prefix sums will give us the sum
+from index 1 to 3(because they start from beginning), but we can use prefix sum till index 3 and subtract the prefix sum of
+index 0 to get sum of index 1 to 3.
+
+Another ex: to get sum of 3 to 4, we say: rangeSum(4) - rangeSum(2):
+
+Note: The green numbers are prefix sums up until that index.
+![](../img/1-arrays/5-4-1.png)
+
+Since we pre-computed the prefix sums, everytime we're asked the sum(product, ...) of any arbitrary subarr, we can get it in
+O(1).
+
+So we pre-compute the work using prefix sums and then we don't need to do those works again.
+
+Note: We can solve this problem using postfix sums.
+
+In PrefixSum DS, we're assuming we're gonna be calling rangeSum() very frequently and we're not gonna be calling the constructor
+very frequently(since it's T is O(n)). That's why solving the sum problem with prefix is more efficient because we're assuming
+we're gonna be calling rangeSum() more frequently than constructor.
