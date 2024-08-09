@@ -97,7 +97,7 @@ So x is the distance from the intersection until the beginning of the cycle.
 
 The distance that the slow pointer have to travel is: `p + c - x`. The fast pointer will go through p and an entire loop of the cycle and
 then also c - x. So: `p + c + c - x`. And we know in terms of distance: slow * 2 = fast.
-So we have: 2 * (p + c - x) = p + c + c - x => p - x = 0 => p = x.
+So we have: 2 * (p + c - x) = p + c + c - x => p - x = 0 => `p = x`.
 
 So x which is the distance from the intersection until the beginning of the cycle, is equal to p which is the distance from
 the start of the LL until the start of cycle.
