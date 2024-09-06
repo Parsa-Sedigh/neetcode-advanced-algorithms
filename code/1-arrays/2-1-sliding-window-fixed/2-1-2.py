@@ -1,6 +1,7 @@
 # Same problem using sliding window technique.
 # T: O(n)
-# M: O()
+# M: O(k) - The space complexity is O(k), where k is the size of the window. This is because the window
+# set can hold at most k elements at any time.
 def closeDuplicates(nums, k):
     window = set()  # cur window of size <= k
     L = 0

@@ -23,9 +23,12 @@ end of the LL, the slow pointer should be at the middle of the LL. This works wh
 If we had a LL of even length, it's still at the midway, because we defined the second node as being the middle, when we have
 a LL with even length.
 
-Q: But what if in a even len LL, we defined the first node of the middle to be the answer?
+**Q: But what if in a even len LL, we defined the first node of the middle to be the answer?**
 
-A: in the beginning of the algo, we would initialize the slow at the head and fast at the next node.
+**A: in the beginning of the algo, we would initialize the slow at the head and fast at the next node.**
+
+Note: So when we have an even len LL, if we initialize both the slow and fast at the head, after fast goes out of bounds,
+slow ends up **at the beginning of the second half of the LL.**
 
 Fast and slow pointers can be used for cycle detection in a LL.
 
@@ -87,7 +90,8 @@ the second slow pointer intersect at the start of the cycle.
 
 Q: Why the second slow pointer and slow pointer meet at the head of the cycle?
 
-A: Let's call the portion before the head of the cycle, p. This portion can be 0(length can be 0). Let's call the length of the cycle is
+A: Let's call the portion before the head of the cycle, p(number of **p**revious nodes we have before the start of the cycle).
+This portion can be 0(length can be 0). Let's call the length of the cycle is
 called c. Call the length from the beginning of the cycle to the point of intersection, c - x. So the remaining of the
 cycle is x:
 
@@ -103,3 +107,11 @@ So x which is the distance from the intersection until the beginning of the cycl
 the start of the LL until the start of cycle.
 
 So when two slow pointers intersect, they will see each other at the head of the cycle.
+
+Note: The slow traverses p and c - x, so the overall it's gonna traverse is: p + c - x.
+
+The fast pointer is gonna do p and then a complete loop of the cycle and then c - x: p + c + c - x.
+Now we know: 2 * slow = fast => ... => `p = x`
+
+In order to fast and slow intersect, the fast pointer has to complete at least one full loop of the cycle and then it's gonna
+traverse c - x to get to intersection point(we don't know where intersection point is).

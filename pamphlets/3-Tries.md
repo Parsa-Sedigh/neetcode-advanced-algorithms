@@ -1,7 +1,9 @@
 # Section 3. Tries
 
-## ??-1. Trie
+## 7-1. Trie
 A different kind of tree structure named a trie and another name for it and probably the better name for it is **prefix tree**.
+
+A trie is a tree and each node can have up to 26 children(a-z).
 
 The goal of a prefix tree is to be able to insert word in `O(1)` . By word I mean a string of characters.
 When we say O(1) that also could be the size of the word itself, because to insert a word OFC we have to go through every single character of that
@@ -9,7 +11,7 @@ word, so maybe a better way to say this is `O(n) where n is the size of the word
 
 Usually tries are used for strings of characters, usually not integers and other types of values.
 
-We also want to search for **existence** of a word in O(1) as well. Given some word, we should be able to check does it exist or not in O(1).
+**We also want to search for existence of a word in O(1) as well. Given some word, we should be able to check does it exist or not in O(1).**
 
 Q: Now you might think: Can't both of these operations most easily be achieved using a hashset?
 
@@ -27,11 +29,11 @@ An application for prefix tree would be with search engines or any kind of searc
 you start typing a few characters and it auto completes or it gives you a few suggestions, it essentially uses a prefix tree. It uses
 the prefix that you typed in and it checks what strings match that prefix.
 
-Insert word: O(1)
+- Insert word: O(1)
+- Search word: O(1)
+- Search prefix: O(1)
 
-Search word: O(1)
-
-Search prefix: O(1)
+Note: These three ops are actually: **O(<size of the word which is constant>)**
 
 A trie is a tree of characters. So each node is going to be a character and the most common restriction specially for coding interviews
 is that we only have to worry about lowercase letters `a-z`, but even if we had a larger character set, it wouldn't make a huge difference
@@ -52,7 +54,7 @@ Since each node could have 0-26 children(in this case), it doesn't make sense to
 way to do this would be a hashmap. So every node is going to have a value(the character) but also a hashmap of all of it's children and the key
 of that hashmap is going to be some character from a-z. So each character is gonna map to some node.
 
-Look at code/3-Tries/??-1-1.py
+![](../img/3-Tries/%3F%3F-1-1.png)
 
 Notice how the TrieNode class doesn't store any characters. We could store a character in each node if we wanted to, but it's redundant because
 you can see in Trie class.
@@ -117,8 +119,120 @@ A trie can be helpful for searching for prefixes. It's also efficient for insert
 
 ![](../img/3-Tries/%3F%3F-1-2.png)
 
-## ??-2. Union Find data structure(Disjoint sets)
+## 8-2. Union Find data structure(Disjoint sets DS)
 It's technically a tree DS, but it's mostly applied to generic graphs. So it can get complicated but the implementation is easy.
 
-## ??-3. Segment Tree
-## ??-4. Iterative DFS
+Suppose we have a graph but it has disjoint sets(in pic, we have 2 disjoint sets). The entire graph is not connected.
+We're used to deal with connected graphs like trees where every node is connected.
+![](../img/3-Tries/8-2-1.png)
+
+The strength of union find DS is dealing with disjoint sets where we can have one or more connected components.
+The strengths of union find is to count the number of connected components.
+
+It can also be used for cycle detection:
+![](../img/3-Tries/8-2-2.png)
+
+Note: DFS algo can also be used for cycle detection with the same time complexity. But sometimes union find is more efficient
+and sometimes it's required.
+
+**EX:** We're given a list of edges like: [[1, 2], [4, 1], [2, 4]] and number of nodes is 4. Determine if this graph
+has cycle or not. Note: Each given edge is undirected. So [1, 2] means 1 and 2 nodes point at each other.
+
+Answer: Union find is a forest of trees which means we have a bunch of trees. Now we wanna initialize the given edges.
+For this, we have a tree for every single disjoint set. Initially, we assume that all nodes are disjoint sets.
+Initially, we don't know any info about the nodes.
+
+For each node, we store what is the parent of that node. Initially, all nodes don't have a parent. But an easier way to
+to do that is to say that the node itself is it's own parent. But we could say at the beginning that it doesn't have a parent.
+
+Now when we wanna connect two nodes like [1, 2] or in other words, we wanna union 1 and 2 together. 
+We **arbitrary(in some cases it does matter which one is chosen as child)** 
+set one node as the child of the other. For example, we set 2 as the child of 1. So now 2 has a parent which is 1:
+![](../img/3-Tries/8-2-3.png)
+
+Now we wanna union the current tree with [2, 4]. We can make 4 to be the child of 2. Or we can make 2 be child of 4, but
+2 already has a parent. So we can't do this. So we can't arbitrary pick in this case. The best way to get around this issue
+is instead of unioning the two nodes themselves, first we go to the last parent of the node and arrive in the root
+node of the current tree, which in our case is 1, and then we union the roots of the trees of the two nodes that we wanted
+to union.
+
+**So instead of unioning the nodes themselves, we union the root parents of the tree that they're in.**
+So in this case, is it better to make 1 as the child of 4(the right tree in pic):
+![](../img/3-Tries/8-2-4.png)
+
+or make 4 as child of 1:
+![](../img/3-Tries/8-2-5.png)
+
+Which one is better?
+
+The second one is more balanced. But why being balanced is important?
+Because when we're trying to union two nodes together, first we wanna find the **root** parent of those two nodes. Then
+we union those two disjoint sets together so that they form a single set. If we have a balanced tree then the 
+"find root parent" op is gonna be more efficient to traverse than having an unbalanced tree(resembling a linked list).
+
+This op is called `union by rank(height)`. So we take the height of the trees that we're unioning and take that into
+consideration. We **could** do it arbitrary if we wanted to, but it's more efficient when we union by height.
+We take the tree with smaller height and add it as a child of the root node of the larger tree. So we connected the 
+tree with less height to the **root** of the tree with larger height because that makes it more efficient to find the root
+from the nodes(because we would traverse less to get to root), we could connect it to the children of larger tree,
+but that would be less efficient later to get to the root.
+
+So until now, using union find, we have a tree(graph) on the left instead of having a graph like the red one:
+
+So union find doesn't necessarily accurately represent the graph because as you see the 2 and 4 nodes are not directly
+connected as given in the edges list. Union find is about being able to detect cycles and count the number of connected components.
+![](../img/3-Tries/8-2-6.png)
+
+Now we wanna do: [4, 1] edge. That means we wanna find the root parent of the node 4 and root parent of node 1. **The roots
+of both nodes is the same. This means these two nodes are part of the same connected component.** That means we can't union these.
+They're already a part of the same set. We can return some val to indicate we were not able to union, for example False.
+That would indicate these two nodes are already connected and that would indicate that the given graph has a cycle.
+Because we're connecting two nodes that were already connected. Note: We're assuming that all given edges were unique.
+Given this assumption that all edges are different and the fact that we were connecting two nodes that were already 
+connected, it means we must have a cycle.
+
+The real graph with the given edges is(the one that we drew a line around):
+![](../img/3-Tries/8-2-7.png)
+
+Our graph has a cycle.
+
+---
+
+A visualization of path compression:
+![](../img/3-Tries/8-2-8.png)
+
+Here, we ran find() on 5, we wanna shorten the path of 5 to it's root. So as we move forward, we set the parent of the node
+to it's grand parent so later, we will traverse a shorter path if we ever ran find() on the same node again.
+
+So this op doesn't make the find() op more efficient **the first time**, but if we ever ran find() on the same node again,
+it will be more efficient.
+
+Note: This action is not always required in union find.
+
+---
+
+### time and space
+
+In naive case where we don't use path compression and we don't use union by rank in union(), the find() method
+will be O(n). Because we might have a unbalanced tree like it resembles a linked list. So traversing it up from
+the leaf node(worst case) would be O(n). We can make this better to O(log(n)) by just doing one of the two
+optimizations. We can either use path compression which is just a single line of code and make
+find() on average to be T: O(log(n))
+Or we can decide to use union by rank which will also make the time to be O(log(n)) for find because doing
+that will result in having a more balanced tree(since the height of the tree would be smaller).
+
+But if we implement **both** path compression and union by height, we get a complicated math func which is written like:
+`ɑ * n` which is read as `alpha times n` and is called **inverse ackermann** function and this function reduces to
+`O(1)` even for really large n values, it will usually be O(1), not literally O(1) but it can be simplified to O(1) in most cases.
+
+But the find() method is gonna run multiple times. In our example, it would run for the number of edges that we have(2 times
+number of edges), let's say the number of edges is `m`. So in general the time complexity of union find, if we have
+m edges, is: `O(m * log(n))`. But if we use both path compression and union by rank, the time of union find would be: `O(m)`.
+This is why **in some cases union find is more efficient than a DFS for cycle detection or counting the number of connected components.**
+
+So for our example:
+- T: O(m)
+- M: O(n)
+
+## 9-3. Segment Tree
+## 10-4. Iterative DFS
