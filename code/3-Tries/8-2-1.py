@@ -27,8 +27,8 @@ class UnionFind:
     # - O(log(n)) - if one of them is used
     # - O(1) if both are used
     # M: O(1)
-    def find(self, n):
-        p = self.rank[n]
+    def find(self, n) -> int:
+        p = self.par[n]
 
         # keep traversing to the parent until curr node is the same as it's parent. Because we know when we hit a node
         # that it's parent is itself, that node doesn't have any more parents, so we can stop there.
@@ -51,7 +51,7 @@ class UnionFind:
     # - O(log(n)) - if one of them is used
     # - O(1) if both are used
     # M: O(1)
-    def union(self, n1, n2):
+    def union(self, n1, n2) -> bool:
         # find the root node of n1 and n2 and union those nodes together
         p1, p2 = self.find(n1), self.find(n2)
 
